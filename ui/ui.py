@@ -41,10 +41,8 @@ class UI:
 
   def _draw_player(self, player):
     player_image = get_player().image
-    self.window.blit(player_image, (player.location.x, player.location.y))
+    self.window.blit(player_image, (player.location))
 
   def _draw_ball(self):
-    x = WINDOW_WIDTH / 2
-    y = WINDOW_HEIGHT / 2
-
-    pygame.draw.circle(self.window, COLOR_WHITE, (x, y), BALL_WIDTH)
+    ball = self.game.ball
+    pygame.draw.circle(self.window, COLOR_WHITE, ball.location, BALL_WIDTH)
