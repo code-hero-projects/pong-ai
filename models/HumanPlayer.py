@@ -2,7 +2,7 @@ import pygame
 from consts import WINDOW_HEIGHT
 
 
-class Player:
+class HumanPlayer:
   def __init__(self, name, score, x, y, velocity, width, height, key_up, key_down):
     self.name = name
     self.score = score

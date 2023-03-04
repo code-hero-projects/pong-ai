@@ -1,19 +1,44 @@
-from controller.consts import WINNING_SCORE
+import time
+import pygame
+from controller.consts import WINNING_SCORE, FPS
 from consts import BALL_INITIAL_VELOCITY, WINDOW_WIDTH, WINDOW_HEIGHT
+from ui.ui import UI
 
 class Game:
   def __init__(self, player_one, player_two, ball):
     self.player_one = player_one
     self.player_two = player_two
     self.ball = ball
+    self.ui = UI(self)
 
-  def play_turn(self):
+  def play(self):
+    clock = pygame.time.Clock()
+    run = True
+
+    while run:
+      clock.tick(FPS)
+
+      for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+          run = False
+
+      self._play_turn()
+      self.ui.draw_window()
+    
+      winner = self._get_winner()
+
+      if winner != None:
+        self.ui.draw_game_over(winner)
+        run = False
+        time.sleep(5)
+
+  def _play_turn(self):
     self._move_players()
     self._move_ball()
     self._handle_collision()
     self._update_score()
   
-  def get_winner(self):
+  def _get_winner(self):
     if self.player_one.score == WINNING_SCORE:
       return self.player_one
     elif self.player_two.score == WINNING_SCORE:
