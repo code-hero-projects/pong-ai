@@ -1,13 +1,11 @@
-import pygame
-from controller.consts import BALL_INITIAL_VELOCITY, BALL_RADIUS, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINNING_SCORE
-from models.Player import Player
-from models.Ball import Ball
-from consts import WINDOW_WIDTH, WINDOW_HEIGHT
+from controller.consts import WINNING_SCORE
+from consts import BALL_INITIAL_VELOCITY, WINDOW_WIDTH, WINDOW_HEIGHT
 
 class Game:
-  def __init__(self):
-    self._init_players()
-    self._init_ball()
+  def __init__(self, player_one, player_two, ball):
+    self.player_one = player_one
+    self.player_two = player_two
+    self.ball = ball
 
   def play_turn(self):
     self._move_players()
@@ -23,33 +21,9 @@ class Game:
     
     return None
 
-  def _init_players(self):
-    x = SCREEN_EDGE_MARGIN
-    y = WINDOW_HEIGHT / 2 - PLAYER_HEIGHT / 2
-
-    self.player_one = Player('Ronaldo', 0, x, y, PLAYER_WIDTH, PLAYER_HEIGHT)
-
-    x = WINDOW_WIDTH - SCREEN_EDGE_MARGIN - PLAYER_WIDTH
-
-    self.player_two = Player('Messi', 0, x, y, PLAYER_WIDTH, PLAYER_HEIGHT)
-
-  def _init_ball(self):
-    x = WINDOW_WIDTH / 2
-    y = WINDOW_HEIGHT / 2
-
-    self.ball = Ball(x, y, BALL_RADIUS, BALL_INITIAL_VELOCITY)
-
   def _move_players(self):
-    keys_pressed = pygame.key.get_pressed()
-
-    if keys_pressed[pygame.K_w]:
-      self.player_one.move_up(PLAYER_VELOCITY)
-    elif keys_pressed[pygame.K_s]:
-      self.player_one.move_down(PLAYER_VELOCITY)
-    elif keys_pressed[pygame.K_UP]:
-      self.player_two.move_up(PLAYER_VELOCITY)
-    elif keys_pressed[pygame.K_DOWN]:
-      self.player_two.move_down(PLAYER_VELOCITY)
+    self.player_one.move()
+    self.player_two.move()
   
   def _move_ball(self):
     self.ball.move()
