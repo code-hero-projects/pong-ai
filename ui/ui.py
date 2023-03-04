@@ -1,6 +1,6 @@
 import pygame
 
-from ui.consts import COLOR_BLACK, FONT_MARGIN_TOP, WINDOW_HEIGHT, WINDOW_WIDTH, MIDDLE_LINE_SPACING, FONT, COLOR_WHITE
+from ui.consts import BALL_WIDTH, COLOR_BLACK, FONT_MARGIN_TOP, WINDOW_HEIGHT, WINDOW_WIDTH, MIDDLE_LINE_SPACING, FONT, COLOR_WHITE
 from assets.assets import get_player, get_middle_line
 
 class UI:
@@ -14,6 +14,7 @@ class UI:
     self._draw_middle_line()
     self._draw_score()
     self._draw_players()
+    self._draw_ball()
 
     pygame.display.update()
 
@@ -43,4 +44,7 @@ class UI:
     self.window.blit(player_image, (player.location.x, player.location.y))
 
   def _draw_ball(self):
-    pass
+    x = WINDOW_WIDTH / 2
+    y = WINDOW_HEIGHT / 2
+
+    pygame.draw.circle(self.window, COLOR_WHITE, (x, y), BALL_WIDTH)
