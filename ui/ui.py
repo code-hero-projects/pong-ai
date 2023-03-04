@@ -1,7 +1,7 @@
 import pygame
 
-from ui.consts import BALL_WIDTH, COLOR_BLACK, FONT_MARGIN_TOP, WINDOW_HEIGHT, WINDOW_WIDTH, MIDDLE_LINE_SPACING, FONT, COLOR_WHITE
-from assets.assets import get_player, get_middle_line
+from ui.consts import COLOR_BLACK, COLOR_LIGHT_GREY, COLOR_ORANGE, FONT_MARGIN_TOP, MIDDLE_LINE_HEIGHT, MIDDLE_LINE_SPACING, FONT, COLOR_WHITE, MIDDLE_LINE_WIDTH
+from consts import WINDOW_HEIGHT, WINDOW_WIDTH
 
 class UI:
   def __init__(self, game):
@@ -18,13 +18,11 @@ class UI:
 
     pygame.display.update()
 
-  def _draw_middle_line(self):
-    middle_line_image = get_middle_line()
-    
-    x = WINDOW_WIDTH / 2 - middle_line_image.width / 2
+  def _draw_middle_line(self):    
+    x = WINDOW_WIDTH / 2 - MIDDLE_LINE_WIDTH / 2
     for middle_line_counter in range(10):
-      y = (middle_line_counter * (middle_line_image.height * 2 + MIDDLE_LINE_SPACING)) + MIDDLE_LINE_SPACING
-      self.window.blit(middle_line_image.image, (x, y))
+      y = (middle_line_counter * (MIDDLE_LINE_HEIGHT * 2 + MIDDLE_LINE_SPACING)) + MIDDLE_LINE_SPACING
+      pygame.draw.rect(self.window, COLOR_LIGHT_GREY, (x, y, MIDDLE_LINE_WIDTH, MIDDLE_LINE_HEIGHT))
 
   def _draw_score(self):
     score_font = pygame.font.SysFont(FONT, 100)
@@ -36,14 +34,12 @@ class UI:
     self.window.blit(score, (WINDOW_WIDTH / 2 + score.get_width(), FONT_MARGIN_TOP))
 
   def _draw_players(self):
-    pygame.draw.rect()
     self._draw_player(self.game.player_one)
     self._draw_player(self.game.player_two)
 
   def _draw_player(self, player):
-    player_image = get_player().image
-    self.window.blit(player_image, (player.location))
+    pygame.draw.rect(self.window, COLOR_WHITE, (player.x, player.y, player.width, player.height))
 
   def _draw_ball(self):
     ball = self.game.ball
-    pygame.draw.circle(self.window, COLOR_WHITE, ball.location, BALL_WIDTH)
+    pygame.draw.circle(self.window, COLOR_ORANGE, (ball.x, ball.y), ball.width)

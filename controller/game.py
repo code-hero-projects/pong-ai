@@ -1,9 +1,8 @@
 import pygame
-from controller.consts import PLAYER_VELOCITY
+from controller.consts import BALL_WIDTH, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN
 from models.Player import Player
 from models.Ball import Ball
-from ui.consts import WINDOW_WIDTH, WINDOW_HEIGHT, SCREEN_EDGE_MARGIN
-from assets.assets import get_player
+from consts import WINDOW_WIDTH, WINDOW_HEIGHT
 
 class Game:
   def __init__(self):
@@ -18,22 +17,20 @@ class Game:
     }
   
   def _init_players(self):
-    player_image = get_player()
-    y = WINDOW_HEIGHT / 2 - player_image.height / 2
+    x = SCREEN_EDGE_MARGIN
+    y = WINDOW_HEIGHT / 2 - PLAYER_HEIGHT / 2
 
-    player_one_location = (0 + SCREEN_EDGE_MARGIN, y)
-    player_one_body = pygame.Rect(player_one_location[0], player_one_location[1], player_image.width, player_image.height)
-    self.player_one = Player('Ronaldo', 0, player_one_location, player_one_body)
+    self.player_one = Player('Ronaldo', 0, x, y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
-    player_two_location = (WINDOW_WIDTH - SCREEN_EDGE_MARGIN - player_image.width, y)
-    player_two_body = pygame.Rect(player_two_location[0], player_two_location[1], player_image.width, player_image.height)
-    self.player_two = Player('Messi', 0, player_two_location, player_two_body)
+    x = WINDOW_WIDTH - SCREEN_EDGE_MARGIN - PLAYER_WIDTH
+
+    self.player_two = Player('Messi', 0, x, y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
   def _init_ball(self):
     x = WINDOW_WIDTH / 2
     y = WINDOW_HEIGHT / 2
 
-    self.ball = Ball((x, y))
+    self.ball = Ball(x, y, BALL_WIDTH)
 
   def play_turn(self):
     keys_pressed = pygame.key.get_pressed()
