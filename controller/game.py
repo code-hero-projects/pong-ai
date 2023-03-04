@@ -1,5 +1,5 @@
 import pygame
-from controller.consts import BALL_MAX_VELOCITY, BALL_RADIUS, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINNING_SCORE
+from controller.consts import BALL_INITIAL_VELOCITY, BALL_RADIUS, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINNING_SCORE
 from models.Player import Player
 from models.Ball import Ball
 from consts import WINDOW_WIDTH, WINDOW_HEIGHT
@@ -37,7 +37,7 @@ class Game:
     x = WINDOW_WIDTH / 2
     y = WINDOW_HEIGHT / 2
 
-    self.ball = Ball(x, y, BALL_RADIUS, BALL_MAX_VELOCITY)
+    self.ball = Ball(x, y, BALL_RADIUS, BALL_INITIAL_VELOCITY)
 
   def _move_players(self):
     keys_pressed = pygame.key.get_pressed()
@@ -89,7 +89,7 @@ class Game:
 
     middle_y = player.y + player.height / 2
     difference_y = middle_y - ball.y
-    reduction_factor = (player.height / 2) / BALL_MAX_VELOCITY
+    reduction_factor = (player.height / 2) / BALL_INITIAL_VELOCITY
     y_velocity = difference_y / reduction_factor
     ball.y_velocity = -1 * y_velocity
 
