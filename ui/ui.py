@@ -36,6 +36,7 @@ class UI:
     self.window.blit(score, (WINDOW_WIDTH / 2 + score.get_width(), FONT_MARGIN_TOP))
 
   def _draw_players(self):
+    pygame.draw.rect()
     self._draw_player(self.game.player_one)
     self._draw_player(self.game.player_two)
 
