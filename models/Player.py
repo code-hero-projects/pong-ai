@@ -5,8 +5,8 @@ class Player:
   def __init__(self, name, score, x, y, width, height):
     self.name = name
     self.score = score
-    self.x = x
-    self.y = y
+    self.x = self.original_x = x
+    self.y = self.original_y = y
     self.width = width
     self.height = height
   
@@ -21,3 +21,7 @@ class Player:
 
     if new_y + self.height < WINDOW_HEIGHT:
       self.y = new_y
+  
+  def reset(self):
+    self.x = self.original_x
+    self.y = self.original_y
