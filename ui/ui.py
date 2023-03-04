@@ -42,4 +42,4 @@ class UI:
 
   def _draw_ball(self):
     ball = self.game.ball
-    pygame.draw.circle(self.window, COLOR_ORANGE, (ball.x, ball.y), ball.width)
+    pygame.draw.circle(self.window, COLOR_ORANGE, (ball.x, ball.y), ball.radius)
