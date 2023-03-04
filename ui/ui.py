@@ -27,7 +27,7 @@ class UI:
   def _draw_middle_line(self):
     middle_line_image = get_middle_line()
     
-    x = WINDOW_WIDTH / 2 - middle_line_image.width
+    x = WINDOW_WIDTH / 2 - middle_line_image.width / 2
     for middle_line_counter in range(10):
       y = (middle_line_counter * (middle_line_image.height * 2 + MIDDLE_LINE_SPACING)) + MIDDLE_LINE_SPACING
       self.window.blit(middle_line_image.image, (x, y))
