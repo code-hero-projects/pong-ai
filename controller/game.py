@@ -1,5 +1,5 @@
 import pygame
-from controller.consts import BALL_MAX_VELOCITY, BALL_RADIUS, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN
+from controller.consts import BALL_MAX_VELOCITY, BALL_RADIUS, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINNING_SCORE
 from models.Player import Player
 from models.Ball import Ball
 from consts import WINDOW_WIDTH, WINDOW_HEIGHT
@@ -8,7 +8,21 @@ class Game:
   def __init__(self):
     self._init_players()
     self._init_ball()
+
+  def play_turn(self):
+    self._move_players()
+    self._move_ball()
+    self._handle_collision()
+    self._update_score()
   
+  def get_winner(self):
+    if self.player_one.score == WINNING_SCORE:
+      return self.player_one
+    elif self.player_two.score == WINNING_SCORE:
+      return self.player_two
+    
+    return None
+
   def _init_players(self):
     x = SCREEN_EDGE_MARGIN
     y = WINDOW_HEIGHT / 2 - PLAYER_HEIGHT / 2
@@ -25,12 +39,6 @@ class Game:
 
     self.ball = Ball(x, y, BALL_RADIUS, BALL_MAX_VELOCITY)
 
-  def play_turn(self):
-    self._move_players()
-    self._move_ball()
-    self._handle_collision()
-    self._update_score()
-  
   def _move_players(self):
     keys_pressed = pygame.key.get_pressed()
 
@@ -54,7 +62,7 @@ class Game:
   def _handle_collision_with_window(self):
     ball = self.ball
     if (ball.y + ball.radius >= WINDOW_HEIGHT) or (ball.y - ball.radius <= 0):
-          ball.y_velocity *= -1
+      ball.y_velocity *= -1
   
   def _handle_collision_with_player_one(self):
     ball = self.ball

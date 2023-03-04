@@ -17,6 +17,17 @@ class UI:
     self._draw_ball()
 
     pygame.display.update()
+  
+  def draw_game_over(self, player):
+    self.draw_window()
+
+    text = f'GAME OVER'
+    # text = f'{player.name} has won! Congratulations!'
+    winner_font = pygame.font.SysFont(FONT, 200)
+    winner = winner_font.render(text, 1, COLOR_WHITE)
+    self.window.blit(winner, (WINDOW_WIDTH / 2 - winner.get_width() / 2, WINDOW_HEIGHT / 2 - winner.get_height() / 2))
+
+    pygame.display.update()
 
   def _draw_middle_line(self):    
     x = WINDOW_WIDTH / 2 - MIDDLE_LINE_WIDTH / 2
