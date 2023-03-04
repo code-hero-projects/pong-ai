@@ -1,5 +1,5 @@
 import pygame
-from controller.consts import BALL_WIDTH, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN
+from controller.consts import BALL_VELOCITY, BALL_WIDTH, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN
 from models.Player import Player
 from models.Ball import Ball
 from consts import WINDOW_WIDTH, WINDOW_HEIGHT
@@ -39,3 +39,5 @@ class Game:
       if keys_pressed[key]:
         move_player = self.keys_functions[key]
         move_player(PLAYER_VELOCITY)
+    
+    self.ball.move(BALL_VELOCITY)
