@@ -94,10 +94,10 @@ class Game:
 
   def _update_score(self):
     if self.ball.x < 0:
-      self.player_one.score += 1
+      self.player_two.score += 1
       self._reset_status()
     elif self.ball.x > WINDOW_WIDTH:
-      self.player_two.score += 1
+      self.player_one.score += 1
       self._reset_status()
 
   def _reset_status(self):

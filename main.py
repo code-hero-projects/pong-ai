@@ -10,7 +10,7 @@ def main():
   pygame.font.init()
   pygame.mixer.init()
 
-  player_one = create_player_one(PlayerType.Human)
+  player_one = create_player_one(PlayerType.BOT)
   player_two = create_player_two(PlayerType.Human)
   ball = create_ball()
 
