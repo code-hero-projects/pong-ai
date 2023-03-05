@@ -8,9 +8,9 @@ def main():
   pygame.font.init()
   pygame.mixer.init()
 
-  player_one = create_player_one(PlayerType.BOT)
-  player_two = create_player_two(PlayerType.Human)
   ball = create_ball()
+  player_one = create_player_one(PlayerType.BOT, ball)
+  player_two = create_player_two(PlayerType.Human, ball)
 
   game = Game(player_one, player_two, ball)
 
