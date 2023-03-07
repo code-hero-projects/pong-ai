@@ -10,6 +10,7 @@ class BasePlayer:
     self.velocity = velocity
     self.width = width
     self.height = height
+    self.hits = 0
 
   def move(self):
     pass

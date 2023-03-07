@@ -1,5 +1,4 @@
 import pygame
-from consts import FPS
 from models.PlayerType import PlayerType
 from models.model_factory import create_ball, create_player_one, create_player_two
 from controller.game import Game

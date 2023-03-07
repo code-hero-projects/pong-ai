@@ -1,8 +1,3 @@
-from models.PlayerType import PlayerType
-
-
-FPS = 60
-
 WINDOW_WIDTH = 2560
 WINDOW_HEIGHT = 1440
 
