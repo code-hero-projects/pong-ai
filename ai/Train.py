@@ -30,14 +30,15 @@ class Train:
   def _evaluate_genomes(self, genomes, config):
     for i, (genome_id, genome) in enumerate(genomes):
       genome.fitness = 0 if genome.fitness == None else genome.fitness
-      self._train_ai(genome, config)
+      generation = i // 50
+      self._train_ai(generation, genome, config)
 
-  def _train_ai(self, genome, config):
+  def _train_ai(self, generation, genome, config):
     clock = pygame.time.Clock()
     run = True
 
     neural_network = neat.nn.FeedForwardNetwork.create(genome, config)
-    self.player_two = self._create_ai_player(genome, neural_network)
+    self.player_two = self._create_ai_player(generation, genome, neural_network)
     
     while run:
       clock.tick(FPS)
@@ -54,11 +55,13 @@ class Train:
         self._reset_scores()
         break
 
-  def _create_ai_player(self, genome, neural_network):
+  def _create_ai_player(self, generation, genome, neural_network):
     x = WINDOW_WIDTH - SCREEN_EDGE_MARGIN - PLAYER_WIDTH
     y = WINDOW_HEIGHT / 2 - PLAYER_HEIGHT / 2
 
-    return AIPlayer('AI', 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, self.ball, neural_network, genome)
+    player_name = f'Gen #{generation}'
+
+    return AIPlayer(player_name, 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, self.ball, neural_network, genome)
 
   def _play_turn(self):
     self._move_players()
