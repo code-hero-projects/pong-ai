@@ -4,9 +4,10 @@ from ui.consts import COLOR_BLACK, COLOR_LIGHT_GREY, COLOR_ORANGE, FONT_MARGIN_T
 from consts import WINDOW_HEIGHT, WINDOW_WIDTH
 
 class UI:
-  def __init__(self, game):
+  def __init__(self, game, draw_hits=False):
     self.window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     self.game = game
+    self.draw_hits = draw_hits
   
   def draw_window(self):
     self.window.fill(COLOR_BLACK)
@@ -43,8 +44,12 @@ class UI:
     self.window.blit(score, (WINDOW_WIDTH / 2 - score.get_width() * 2, FONT_MARGIN_TOP))
 
     player_two_score_text = f'{self.game.player_two.name} - {self.game.player_two.score}'
+
+    if (self.draw_hits):
+      player_two_score_text = player_two_score_text + f', Hits - {self.game.player_two.hits}'
+
     score = score_font.render(player_two_score_text, 1, COLOR_WHITE)
-    self.window.blit(score, (WINDOW_WIDTH / 2 + score.get_width(), FONT_MARGIN_TOP))
+    self.window.blit(score, (WINDOW_WIDTH / 2 + 50, FONT_MARGIN_TOP))
 
   def _draw_players(self):
     self._draw_player(self.game.player_one)

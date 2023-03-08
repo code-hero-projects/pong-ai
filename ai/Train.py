@@ -12,7 +12,7 @@ class Train:
   def __init__(self):
     self.ball = create_ball()
     self.player_one = create_player_one(PlayerType.BOT, self.ball)
-    self.ui = UI(self)
+    self.ui = UI(self, True)
 
   def neat(self, config_file, generation=None):
     if not generation:
