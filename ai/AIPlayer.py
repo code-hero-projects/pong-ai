@@ -14,7 +14,7 @@ class AIPlayer:
       self.neural_network = neural_network
       self.genome = genome
       self.hits = 0
-      
+
     def reset(self):
       self.x = self.original_x
       self.y = self.original_y
@@ -23,21 +23,32 @@ class AIPlayer:
       output = self.neural_network.activate((self.y, abs(self.x - self.ball.x), self.ball.y))
       decision = output.index(max(output))
 
+      valid = True
       if decision == 0:
         self.genome.fitness -= 0.01
       elif decision == 1:
-        self._move_up()
+        valid = self._move_up()
       else:
-        self._move_down()
+        valid = self._move_down()
+
+      if not valid:
+        self.genome.fitness -= 1
 
     def _move_up(self):
       new_y = self.y - self.velocity
 
       if new_y > 0:
         self.y = new_y
+        return True
+      else:
+        return False
+      
 
     def _move_down(self):
       new_y = self.y + self.velocity
 
       if new_y + self.height < WINDOW_HEIGHT:
         self.y = new_y
+        return True
+      else:
+        return False

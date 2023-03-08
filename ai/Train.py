@@ -14,10 +14,12 @@ class Train:
     self.player_one = create_player_one(PlayerType.BOT, self.ball)
     self.ui = UI(self)
 
-  def neat(self, config_file):
-    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_file)
-
-    population = neat.Population(config)
+  def neat(self, config_file, generation=None):
+    if not generation:
+      config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_file)
+      population = neat.Population(config)
+    else:
+      population = neat.Checkpointer.restore_checkpoint('neat-checkpoint-15')
     population.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     population.add_reporter(stats)
@@ -27,7 +29,7 @@ class Train:
 
   def _evaluate_genomes(self, genomes, config):
     for i, (genome_id, genome) in enumerate(genomes):
-      genome.fitness = 0
+      genome.fitness = 0 if genome.fitness == None else genome.fitness
       self._train_ai(genome, config)
 
   def _train_ai(self, genome, config):
@@ -48,7 +50,8 @@ class Train:
       self.ui.draw_window()
 
       if self.player_one.score == 1 or self.player_two.score == 1:
-        genome.fitness += self.player_two.hits
+        genome.fitness += self.player_two.hits + self.player_two.score * 2
+        self._reset_scores()
         break
 
   def _create_ai_player(self, genome, neural_network):
@@ -123,3 +126,7 @@ class Train:
     self.ball.reset()
     self.player_one.reset()
     self.player_two.reset()
+  
+  def _reset_scores(self):
+    self.player_one.score = 0
+    self.player_two_score = 0
