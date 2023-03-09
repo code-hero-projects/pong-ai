@@ -13,6 +13,10 @@ class Train:
     self.ball = create_ball()
     self.player_one = create_player_one(PlayerType.BOT, self.ball)
     self.ui = UI(self, True)
+    self.player_one_round_score = 0
+    self.player_two_round_score = 0
+    self.player_two_generation_score = 0
+    self.generation = 1
 
   def neat(self, config_file, generation=None):
     if not generation:
@@ -30,15 +34,17 @@ class Train:
   def _evaluate_genomes(self, genomes, config):
     for i, (genome_id, genome) in enumerate(genomes):
       genome.fitness = 0 if genome.fitness == None else genome.fitness
-      generation = i // 50
-      self._train_ai(generation, genome, config)
+      self._train_ai(genome, config)
+    
+    self._reset_generation_scores()
+    self.generation += 1
 
-  def _train_ai(self, generation, genome, config):
+  def _train_ai(self, genome, config):
     clock = pygame.time.Clock()
     run = True
 
     neural_network = neat.nn.FeedForwardNetwork.create(genome, config)
-    self.player_two = self._create_ai_player(generation, genome, neural_network)
+    self.player_two = self._create_ai_player(genome, neural_network)
     
     while run:
       clock.tick(FPS)
@@ -50,18 +56,18 @@ class Train:
       self._play_turn()
       self.ui.draw_window()
 
-      if self.player_one.score == 1 or self.player_two.score == 1:
-        genome.fitness += self.player_two.hits + self.player_two.score * 2
-        self._reset_scores()
+      if self.player_one_round_score == 1 or self.player_two_round_score == 1:
+        self._calculate_fitness(genome)
+        self._reset_round_scores()
         break
 
-  def _create_ai_player(self, generation, genome, neural_network):
+  def _create_ai_player(self, genome, neural_network):
     x = WINDOW_WIDTH - SCREEN_EDGE_MARGIN - PLAYER_WIDTH
     y = WINDOW_HEIGHT / 2 - PLAYER_HEIGHT / 2
 
-    player_name = f'Gen #{generation}'
+    player_name = f'Gen #{self.generation}'
 
-    return AIPlayer(player_name, 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, self.ball, neural_network, genome)
+    return AIPlayer(player_name, self.player_two_generation_score, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, self.ball, neural_network, genome)
 
   def _play_turn(self):
     self._move_players()
@@ -120,9 +126,13 @@ class Train:
   def _update_score(self):
     if self.ball.x < 0:
       self.player_two.score += 1
+      self.player_two_round_score += 1
+      self.player_two_generation_score += 1
       self._reset_status()
+
     elif self.ball.x > WINDOW_WIDTH:
       self.player_one.score += 1
+      self.player_one_round_score += 1
       self._reset_status()
 
   def _reset_status(self):
@@ -130,6 +140,13 @@ class Train:
     self.player_one.reset()
     self.player_two.reset()
   
-  def _reset_scores(self):
+  def _calculate_fitness(self, genome):
+    genome.fitness += self.player_two.hits + self.player_two_round_score * 2
+
+  def _reset_round_scores(self):
+    self.player_one_round_score = 0
+    self.player_two_round_score = 0
+
+  def _reset_generation_scores(self):
     self.player_one.score = 0
-    self.player_two_score = 0
+    self.player_two_generation_score = 0
