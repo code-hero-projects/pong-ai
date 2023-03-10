@@ -1,13 +1,15 @@
 import neat
 import pygame
+import pickle
 from ai.AIPlayer import AIPlayer
-from ai.consts import MAX_HITS
+from ai.TrainStorage import TrainStorage
+from ai.consts import GENERATIONS, MAX_HITS
 from consts import BALL_INITIAL_VELOCITY, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINDOW_HEIGHT, WINDOW_WIDTH
 from controller.consts import FPS
-
 from ui.ui import UI
 from models.PlayerType import PlayerType
 from models.model_factory import create_ball, create_player_one
+
 
 class Train:
   def __init__(self):
@@ -18,29 +20,35 @@ class Train:
     self.player_two_round_score = 0
     self.player_two_generation_score = 0
     self.generation = 1
+    self.train_storage = TrainStorage()
 
   def neat(self, config_file, generation=None):
     if not generation:
       config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_file)
       population = neat.Population(config)
     else:
-      population = neat.Checkpointer.restore_checkpoint('neat-checkpoint-15')
+      checkpoint = f'neat-checkpoint-{generation}'
+      population = neat.Checkpointer.restore_checkpoint(checkpoint)
+
     population.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     population.add_reporter(stats)
     population.add_reporter(neat.Checkpointer(1))
 
-    winner = population.run(self._evaluate_genomes, 50)
+    winner = population.run(self._evaluate_genomes, GENERATIONS)
+
+    with open("best.pickle", "wb") as f:
+      pickle.dump(winner, f)
 
   def _evaluate_genomes(self, genomes, config):
     for i, (genome_id, genome) in enumerate(genomes):
       genome.fitness = 0 if genome.fitness == None else genome.fitness
-      self._train_ai(genome, config)
+      self._train_ai(genome_id, genome, config)
     
-    self._reset_generation_scores()
+    self._reset_generation()
     self.generation += 1
 
-  def _train_ai(self, genome, config):
+  def _train_ai(self, genome_id, genome, config):
     clock = pygame.time.Clock()
     run = True
 
@@ -58,8 +66,9 @@ class Train:
       self.ui.draw_window()
 
       if self.player_one_round_score == 1 or self.player_two_round_score == 1 or self.player_one_round_score + self.player_two_round_score == MAX_HITS:
+        self.train_storage.add_genome_info(self.generation, genome_id, genome.fitness, self.player_two.hits, self.player_two_round_score)
         self._calculate_fitness(genome)
-        self._reset_round_scores()
+        self._reset_round()
         break
 
   def _create_ai_player(self, genome, neural_network):
@@ -144,10 +153,10 @@ class Train:
   def _calculate_fitness(self, genome):
     genome.fitness += self.player_two.hits + self.player_two_round_score * 2
 
-  def _reset_round_scores(self):
+  def _reset_round(self):
     self.player_one_round_score = 0
     self.player_two_round_score = 0
 
-  def _reset_generation_scores(self):
+  def _reset_generation(self):
     self.player_one.score = 0
     self.player_two_generation_score = 0

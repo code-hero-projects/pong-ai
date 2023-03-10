@@ -1,3 +1,7 @@
+GENERATIONS = 50
+
 WINNING_SCORE = 1
 
 MAX_HITS = 40
+
+STORAGE_NAME = 'pong-ai-dataset.csv'
