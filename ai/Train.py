@@ -1,12 +1,13 @@
 import neat
 import pygame
 from ai.AIPlayer import AIPlayer
+from ai.consts import MAX_HITS
 from consts import BALL_INITIAL_VELOCITY, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINDOW_HEIGHT, WINDOW_WIDTH
 from controller.consts import FPS
 
 from ui.ui import UI
 from models.PlayerType import PlayerType
-from models.model_factory import create_ball, create_player_one, create_player_two
+from models.model_factory import create_ball, create_player_one
 
 class Train:
   def __init__(self):
@@ -56,7 +57,7 @@ class Train:
       self._play_turn()
       self.ui.draw_window()
 
-      if self.player_one_round_score == 1 or self.player_two_round_score == 1:
+      if self.player_one_round_score == 1 or self.player_two_round_score == 1 or self.player_one_round_score + self.player_two_round_score == MAX_HITS:
         self._calculate_fitness(genome)
         self._reset_round_scores()
         break

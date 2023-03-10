@@ -1,1 +1,3 @@
 WINNING_SCORE = 1
+
+MAX_HITS = 40
