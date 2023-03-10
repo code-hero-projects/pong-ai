@@ -1,3 +1,4 @@
+import time
 import neat
 import pygame
 import pickle
@@ -42,7 +43,8 @@ class Train:
 
   def _evaluate_genomes(self, genomes, config):
     for i, (genome_id, genome) in enumerate(genomes):
-      genome.fitness = 0 if genome.fitness == None else genome.fitness
+      if genome.fitness == None:
+        genome.fitness = 0
       self._train_ai(genome_id, genome, config)
     
     self._reset_generation()
@@ -51,10 +53,12 @@ class Train:
   def _train_ai(self, genome_id, genome, config):
     clock = pygame.time.Clock()
     run = True
-
+    
+    start_time = time.time()
     neural_network = neat.nn.FeedForwardNetwork.create(genome, config)
     self.player_two = self._create_ai_player(genome, neural_network)
-    
+    self.ball.random()
+
     while run:
       clock.tick(FPS)
 
@@ -66,8 +70,9 @@ class Train:
       self.ui.draw_window()
 
       if self.player_one_round_score == 1 or self.player_two_round_score == 1 or self.player_one_round_score + self.player_two_round_score == MAX_HITS:
+        duration = time.time() - start_time
+        self._calculate_fitness(genome, duration)
         self.train_storage.add_genome_info(self.generation, genome_id, genome.fitness, self.player_two.hits, self.player_two_round_score)
-        self._calculate_fitness(genome)
         self._reset_round()
         break
 
@@ -146,14 +151,14 @@ class Train:
       self._reset_status()
 
   def _reset_status(self):
-    self.ball.reset()
     self.player_one.reset()
     self.player_two.reset()
   
-  def _calculate_fitness(self, genome):
-    genome.fitness += self.player_two.hits + self.player_two_round_score * 2
+  def _calculate_fitness(self, genome, duration):
+    genome.fitness += self.player_two.hits + self.player_two_round_score * 3 + duration
 
   def _reset_round(self):
+    self.ball.reset()
     self.player_one_round_score = 0
     self.player_two_round_score = 0
 

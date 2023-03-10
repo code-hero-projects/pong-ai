@@ -9,7 +9,7 @@ def main():
 
   ball = create_ball()
   player_one = create_player_one(PlayerType.BOT, ball)
-  player_two = create_player_two(PlayerType.Human, ball)
+  player_two = create_player_two(PlayerType.AI, ball)
 
   game = Game(player_one, player_two, ball)
 

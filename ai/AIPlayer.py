@@ -23,16 +23,16 @@ class AIPlayer:
       output = self.neural_network.activate((self.y, abs(self.x - self.ball.x), self.ball.y))
       decision = output.index(max(output))
 
-      valid = True
+      # valid = True
       if decision == 0:
-        self.genome.fitness -= 0.01
+        valid = False
       elif decision == 1:
         valid = self._move_up()
       else:
         valid = self._move_down()
 
       if not valid:
-        self.genome.fitness -= 1
+        self.genome.fitness -= 0.01
 
     def _move_up(self):
       new_y = self.y - self.velocity

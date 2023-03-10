@@ -1,5 +1,7 @@
+import os
 import pygame
 from consts import BALL_INITIAL_VELOCITY, BALL_RADIUS, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINDOW_HEIGHT, WINDOW_WIDTH
+from models.AIPlayer import AIPlayer
 from models.Ball import Ball
 from models.BotPlayer import BotPlayer
 from models.HumanPlayer import HumanPlayer
@@ -31,4 +33,4 @@ def _create_player(x, y, player_type, key_up, key_down, ball):
     case PlayerType.BOT:
       return BotPlayer('Bot', 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, ball)
     case _:
-      return HumanPlayer('AI', 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, pygame.K_o, pygame.K_k)
+      return AIPlayer('AI', 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, ball)

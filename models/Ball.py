@@ -1,3 +1,8 @@
+import random
+
+from consts import RANDOM_BALL_MARGIN, WINDOW_HEIGHT
+
+
 class Ball:
   def __init__(self, x, y, radius, max_velocity):
     self.x = self.original_x = x
@@ -15,3 +20,13 @@ class Ball:
     self.y = self.original_y
     self.y_velocity = 0
     self.x_velocity *= -1
+  
+  def random(self):
+    random_direction = random.randint(1, 100)
+    if random_direction > 50:
+      self.x_velocity *= -1
+    
+    random_y = random.randint(RANDOM_BALL_MARGIN, WINDOW_HEIGHT - RANDOM_BALL_MARGIN)
+    self.y = random_y
+
+    
