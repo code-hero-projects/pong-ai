@@ -4,7 +4,7 @@ import pygame
 import pickle
 from ai.AIPlayer import AIPlayer
 from ai.TrainStorage import TrainStorage
-from ai.consts import BEST_GENOME_FILENAME, GENERATIONS, MAX_HITS, NEAT_CONFIG_FILENAME
+from ai.consts import BEST_GENOME_FILENAME, GENERATIONS, MAX_HITS, NEAT_CONFIG_FILENAME, SCORE_MULTIPLIER
 from consts import BALL_INITIAL_VELOCITY, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINDOW_HEIGHT, WINDOW_WIDTH
 from controller.consts import FPS
 from ui.ui import UI
@@ -30,6 +30,7 @@ class Train:
     else:
       checkpoint = f'neat-checkpoint-{generation}'
       population = neat.Checkpointer.restore_checkpoint(checkpoint)
+      self.generation = generation
 
     population.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
@@ -48,6 +49,7 @@ class Train:
       self._train_ai(genome_id, genome, config)
     
     self._reset_generation()
+    self.train_storage.end_generation()
     self.generation += 1
 
   def _train_ai(self, genome_id, genome, config):
@@ -69,7 +71,7 @@ class Train:
       self._play_turn()
       self.ui.draw_window()
 
-      if self.player_one_round_score == 1 or self.player_two_round_score == 1 or self.player_one_round_score + self.player_two_round_score == MAX_HITS:
+      if self.player_one_round_score == 1 or self.player_two_round_score == 1 or self.player_two.hits == MAX_HITS:
         duration = time.time() - start_time
         self._calculate_fitness(genome, duration)
         self.train_storage.add_genome_info(self.generation, genome_id, genome.fitness, self.player_two.hits, self.player_two_round_score)
@@ -155,7 +157,7 @@ class Train:
     self.player_two.reset()
   
   def _calculate_fitness(self, genome, duration):
-    genome.fitness += self.player_two.hits + self.player_two_round_score * 3 + duration
+    genome.fitness += self.player_two.hits + self.player_two_round_score * SCORE_MULTIPLIER + duration
 
   def _reset_round(self):
     self.ball.reset()

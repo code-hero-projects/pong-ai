@@ -2,7 +2,9 @@ GENERATIONS = 50
 
 WINNING_SCORE = 1
 
-MAX_HITS = 40
+MAX_HITS = 10
+
+SCORE_MULTIPLIER = 10
 
 AI_DIR = './ai/assets/'
 
