@@ -1,6 +1,7 @@
 import os
 import neat
 import pickle
+from ai.consts import BEST_GENOME_FILENAME, NEAT_CONFIG_FILENAME
 from models.BasePlayer import BasePlayer
 
 
@@ -20,10 +21,8 @@ class AIPlayer(BasePlayer):
       super()._move_down()
     
   def _init_neural_network(self):
-    local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'neat_config.txt')
-    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_path)
+    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, NEAT_CONFIG_FILENAME)
 
-    with open('best.pickle', 'rb') as file:
+    with open(BEST_GENOME_FILENAME, 'rb') as file:
       winner = pickle.load(file)
     self.neural_network = neat.nn.FeedForwardNetwork.create(winner, config)

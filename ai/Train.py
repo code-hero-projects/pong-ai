@@ -4,7 +4,7 @@ import pygame
 import pickle
 from ai.AIPlayer import AIPlayer
 from ai.TrainStorage import TrainStorage
-from ai.consts import GENERATIONS, MAX_HITS
+from ai.consts import BEST_GENOME_FILENAME, GENERATIONS, MAX_HITS, NEAT_CONFIG_FILENAME
 from consts import BALL_INITIAL_VELOCITY, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINDOW_HEIGHT, WINDOW_WIDTH
 from controller.consts import FPS
 from ui.ui import UI
@@ -23,9 +23,9 @@ class Train:
     self.generation = 1
     self.train_storage = TrainStorage()
 
-  def neat(self, config_file, generation=None):
+  def neat(self, generation=None):
     if not generation:
-      config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_file)
+      config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, NEAT_CONFIG_FILENAME)
       population = neat.Population(config)
     else:
       checkpoint = f'neat-checkpoint-{generation}'
@@ -38,7 +38,7 @@ class Train:
 
     winner = population.run(self._evaluate_genomes, GENERATIONS)
 
-    with open("best.pickle", "wb") as f:
+    with open(BEST_GENOME_FILENAME, "wb") as f:
       pickle.dump(winner, f)
 
   def _evaluate_genomes(self, genomes, config):

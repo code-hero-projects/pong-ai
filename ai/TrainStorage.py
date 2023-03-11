@@ -1,10 +1,8 @@
-import os.path
-
-from ai.consts import STORAGE_NAME
+from ai.consts import STORAGE_FILENAME
 
 class TrainStorage:
   def __init__(self) -> None:
-    self.file = open(STORAGE_NAME, 'w')
+    self.file = open(STORAGE_FILENAME, 'w')
     text = 'generation,genome,fitness,hits,scored\n'
     self._write(text)
 
