@@ -18,3 +18,5 @@ class BossBotPlayer(BasePlayer):
       super()._move_down()
     elif (self.ball.y > middle_y and self.ball.y < downer_middle_y) or self.ball.y < self.y:
       super()._move_up()
+    elif self.ball.y == middle_y:
+      super()._move_down()
