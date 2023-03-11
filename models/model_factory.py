@@ -34,6 +34,6 @@ def _create_player(x, y, player_type, key_up, key_down, ball):
     case PlayerType.BOT:
       return BotPlayer('Bot', 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, ball)
     case PlayerType.BOSS_BOT:
-      return BossBotPlayer('Boos Bot', 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, ball)
+      return BossBotPlayer('Boss Bot', 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, ball)
     case _:
       return AIPlayer('AI', 0, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, ball)

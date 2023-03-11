@@ -39,9 +39,13 @@ class UI:
   def _draw_score(self):
     score_font = pygame.font.SysFont(FONT, 100)
 
+    middle = WINDOW_WIDTH / 2
+
     player_one_score_text = f'{self.game.player_one.name} - {self.game.player_one.score}'
     score = score_font.render(player_one_score_text, 1, COLOR_WHITE)
-    self.window.blit(score, (WINDOW_WIDTH / 2 - score.get_width() * 2, FONT_MARGIN_TOP))
+
+    start_x = (middle - score.get_width()) / 2
+    self.window.blit(score, (start_x, FONT_MARGIN_TOP))
 
     player_two_score_text = f'{self.game.player_two.name} - {self.game.player_two.score}'
 
@@ -49,7 +53,9 @@ class UI:
       player_two_score_text = player_two_score_text + f', Hits - {self.game.player_two.hits}'
 
     score = score_font.render(player_two_score_text, 1, COLOR_WHITE)
-    self.window.blit(score, (WINDOW_WIDTH / 2 + 50, FONT_MARGIN_TOP))
+
+    start_x = middle + ((middle - score.get_width()) / 2)
+    self.window.blit(score, (start_x, FONT_MARGIN_TOP))
 
   def _draw_players(self):
     self._draw_player(self.game.player_one)
