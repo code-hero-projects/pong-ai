@@ -1,11 +1,11 @@
 import os
 import pygame
 from consts import BALL_INITIAL_VELOCITY, BALL_RADIUS, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINDOW_HEIGHT, WINDOW_WIDTH
-from models.AIPlayer import AIPlayer
+from models.players.AIPlayer import AIPlayer
 from models.Ball import Ball
-from models.BotPlayer import BotPlayer
-from models.HumanPlayer import HumanPlayer
-from models.PlayerType import PlayerType
+from models.players.BotPlayer import BotPlayer
+from models.players.HumanPlayer import HumanPlayer
+from models.players.PlayerType import PlayerType
 
 
 def create_player_one(player_type, ball):

@@ -8,7 +8,7 @@ from ai.consts import BEST_GENOME_FILENAME, GENERATIONS, MAX_HITS, NEAT_CONFIG_F
 from consts import BALL_INITIAL_VELOCITY, PLAYER_HEIGHT, PLAYER_VELOCITY, PLAYER_WIDTH, SCREEN_EDGE_MARGIN, WINDOW_HEIGHT, WINDOW_WIDTH
 from controller.consts import FPS
 from ui.ui import UI
-from models.PlayerType import PlayerType
+from models.players.PlayerType import PlayerType
 from models.model_factory import create_ball, create_player_one
 
 

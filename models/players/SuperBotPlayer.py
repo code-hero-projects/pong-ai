@@ -1,4 +1,4 @@
-from models.BasePlayer import BasePlayer
+from models.players.BasePlayer import BasePlayer
 
 
 class BotPlayer(BasePlayer):

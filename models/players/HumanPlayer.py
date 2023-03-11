@@ -1,5 +1,5 @@
 import pygame
-from models.BasePlayer import BasePlayer
+from models.players.BasePlayer import BasePlayer
 
 
 class HumanPlayer(BasePlayer):
