@@ -21,9 +21,9 @@ class Train:
     self.player_two_round_score = 0
     self.player_two_generation_score = 0
     self.generation = 1
-    self.train_storage = TrainStorage()
 
   def neat(self, generation=None):
+    self.train_storage = TrainStorage(generation)
     if not generation:
       config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, NEAT_CONFIG_FILENAME)
       population = neat.Population(config)
