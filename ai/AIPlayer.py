@@ -1,16 +1,10 @@
 from consts import WINDOW_HEIGHT
+from models.players.BotPlayer import BotPlayer
 
 
-class AIPlayer:
+class AIPlayer(BotPlayer):
     def __init__(self, name, score, x, y, velocity, width, height, ball, neural_network, genome):
-      self.name = name
-      self.score = score
-      self.x = self.original_x = x
-      self.y = self.original_y = y
-      self.velocity = velocity
-      self.width = width
-      self.height = height
-      self.ball = ball
+      super().__init__(name, score, x, y, velocity, width, height, ball)
       self.neural_network = neural_network
       self.genome = genome
       self.hits = 0

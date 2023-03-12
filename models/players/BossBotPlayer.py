@@ -13,14 +13,6 @@ class BossBotPlayer(BasePlayer):
     middle_y = self.y + self.height / 2
     upper_middle_y = self.y + self.PADDLE_EDGE_MARGIN
     downer_middle_y = end_y - self.PADDLE_EDGE_MARGIN
-    # if (self.ball.y <= middle_y and self.ball.y >= upper_middle_y) or self.ball.y >= end_y:
-    #   super()._move_down()
-    # elif (self.ball.y > middle_y and self.ball.y < downer_middle_y) or self.ball.y < self.y:
-    #   super()._move_up()
-    # elif self.ball.y > middle_y:
-    #   super()._move_down()
-    # else:
-    #   super()._move_up()
 
     if self.ball.y > middle_y:
       if self.ball.y > end_y or self.ball.y <= downer_middle_y:
