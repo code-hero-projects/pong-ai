@@ -22,6 +22,10 @@ class Game:
         if event.type == pygame.QUIT:
           run = False
 
+      keys_pressed = pygame.key.get_pressed()
+      if keys_pressed[pygame.K_r]:
+        self._reset_status()
+
       self._play_turn()
       self.ui.draw_window()
     

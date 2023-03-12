@@ -13,9 +13,9 @@ from models.model_factory import create_ball, create_player_one
 
 
 class Train:
-  def __init__(self):
-    self.ball = create_ball()
-    self.player_one = create_player_one(PlayerType.BOT, self.ball)
+  def __init__(self, player_one, ball):
+    self.player_one = player_one
+    self.ball = ball
     self.ui = UI(self, True)
     self.player_one_round_score = 0
     self.player_two_round_score = 0
@@ -82,7 +82,7 @@ class Train:
     x = WINDOW_WIDTH - SCREEN_EDGE_MARGIN - PLAYER_WIDTH
     y = WINDOW_HEIGHT / 2 - PLAYER_HEIGHT / 2
 
-    player_name = f'Gen #{self.generation}'
+    player_name = f'Gen {self.generation}, #{genome.key}'
 
     return AIPlayer(player_name, self.player_two_generation_score, x, y, PLAYER_VELOCITY, PLAYER_WIDTH, PLAYER_HEIGHT, self.ball, neural_network, genome)
 
