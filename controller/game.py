@@ -95,6 +95,8 @@ class Game:
     reduction_factor = (player.height / 2) / BALL_INITIAL_VELOCITY
     y_velocity = difference_y / reduction_factor
     ball.y_velocity = -1 * y_velocity
+    
+    player.hits += 1
 
   def _update_score(self):
     if self.ball.x < 0:

@@ -1,4 +1,3 @@
-import os
 import neat
 import pickle
 from ai.consts import BEST_GENOME_FILENAME, NEAT_CONFIG_FILENAME
